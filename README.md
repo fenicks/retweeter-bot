@@ -1,4 +1,4 @@
-# Retwetter bot
+# Retweeter bot
 
 Retweeter bot is a little Ruby script based on Ruby Twitter gem.
 The goal is to retweet Tweets with specific #tag and written by trusted users.
