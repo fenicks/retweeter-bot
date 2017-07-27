@@ -23,16 +23,17 @@ trusted_users = ENV.fetch('APP_TRUSTED_USERS',
                           'ForgedtoFight,MarvelChampions,kabam')
 @log.info "[TRUSTED_USERS]: #{trusted_users}"
 
-@streamer.filter(track: topics) do |object|
+@streamer.filter(track: topics) do |tweet|
   begin
-    next unless object.is_a?(Twitter::Tweet)
+    next unless tweet.is_a?(Twitter::Tweet)
+    next if 'true'.eql?(ENV['APP_IGNORE_RETWEET']) && tweet.retweet?
     # Ignore my tweets
-    next if object.user.id == @client.user(skip_status: true).id
+    next if tweet.user.id == @client.user(skip_status: true).id
     # Check for trusted users
-    next unless trusted_users.split(',').include?(object.user.screen_name)
-    @client.retweet! object
-    @client.favorite! object
-    @log.info "[RETWEETED-FAV] #{object.text}"
+    next unless trusted_users.split(',').include?(tweet.user.screen_name)
+    @client.retweet! tweet
+    @client.favorite! tweet
+    @log.info "[RETWEETED-LIKED] #{tweet.text}"
   rescue => e
     @log.warn e
   end

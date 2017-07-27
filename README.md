@@ -9,6 +9,7 @@ Feel free to be inspired by this lines of code and write something more bigger.
 
 ### Environment variables needed
 
+ * **APP_IGNORE_RETWEET**: ignore retweet if set to `true`.
  * **APP_TOPICS**: topics to watch. List of #tags separated by a coma. Ex.: `#forgedtofight,#Transformers,#ContestOfChampions,#MCoC`.
  * **APP_TRUSTED_USERS**: trusted users for retweets and favorites Tweets. Ex.: `MarvelChampions,ForgedtoFight,kabam`.
  * **TWITTER_CONSUMER_KEY**: Twitter consumer key.
