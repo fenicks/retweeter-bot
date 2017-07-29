@@ -23,8 +23,8 @@ trusted_users = ENV.fetch('APP_TRUSTED_USERS',
                           'ForgedtoFight,MarvelChampions,kabam')
 @log.info "[TRUSTED_USERS]: #{trusted_users}"
 
-@streamer.filter(track: topics) do |tweet|
-  begin
+begin
+  @streamer.filter(track: topics) do |tweet|
     next unless tweet.is_a?(Twitter::Tweet)
     next if 'true'.eql?(ENV['APP_IGNORE_RETWEET']) && tweet.retweet?
     # Ignore my tweets
@@ -34,7 +34,14 @@ trusted_users = ENV.fetch('APP_TRUSTED_USERS',
     @client.retweet! tweet
     @client.favorite! tweet
     @log.info "[RETWEETED-LIKED] #{tweet.text}"
-  rescue => e
-    @log.warn e
   end
+rescue Twitter::Error::TooManyRequests => e
+  @log.warn "[TOOMANYREQUESTS-START]: #{e}"
+  sleep e.rate_limit.reset_in + 1
+  @log.warn "[TOOMANYREQUESTS-END  ]: #{e}"
+  retry
+rescue => e
+  @log.warn e
+  sleep 5
+  retry
 end
