@@ -26,7 +26,7 @@ trusted_users = ENV.fetch('APP_TRUSTED_USERS',
 begin
   @streamer.filter(track: topics) do |tweet|
     next unless tweet.is_a?(Twitter::Tweet)
-    next if 'true'.eql?(ENV['APP_IGNORE_RETWEET']) && tweet.retweet?
+    next if 'true'.eql?(ENV['APP_IGNORE_RETWEETS']) && tweet.retweet?
     # Ignore my tweets
     next if tweet.user.id == @client.user(skip_status: true).id
     # Check for trusted users
