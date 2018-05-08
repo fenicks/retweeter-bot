@@ -11,6 +11,8 @@ Feel free to be inspired by this lines of code and write something more bigger.
 
  * **APP_IGNORE_RETWEETS**: ignore retweets if set to `true`.
  * **APP_TOPICS**: topics to watch. List of #tags separated by a coma. Ex.: `#forgedtofight,#Transformers,#ContestOfChampions,#MCoC`.
+ * **APP_ACTION_RETWEET**: not activated if value is not set to `true`. Retweet tweets  matched by the topics.
+ * **APP_ACTION_FAVORITE**: not activated if value is not set to `true`. Mark tweet as favorite (like).
  * **APP_TRUSTED_USERS**: trusted users for retweets and favorites Tweets. Ex.: `MarvelChampions,ForgedtoFight,kabam`.
  * **TWITTER_CONSUMER_KEY**: Twitter consumer key.
  * **TWITTER_CONSUMER_SECRET**: Twitter consumer secret.

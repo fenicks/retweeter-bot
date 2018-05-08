@@ -31,16 +31,23 @@ begin
     next if tweet.user.id == @client.user(skip_status: true).id
     # Check for trusted users
     next unless @trusted_users.split(',').include?(tweet.user.screen_name)
-    @client.retweet! tweet
-    @client.favorite! tweet
-    @log.info "[RETWEETED-LIKED] #{tweet.text}"
+    action_state = +''
+    if 'true'.eql?(ENV['APP_ACTION_RETWEET'])
+      @client.retweet!(tweet)
+      action_state << '#retweet'
+    end
+    if 'true'.eql?(ENV['APP_ACTION_FAVORITE'])
+      @client.favorite!(tweet)
+      action_state << '#favorite'
+    end
+    @log.info "[TWEET-#{tweet.id}#{action_state}] #{tweet.text}"
   end
 rescue Twitter::Error::TooManyRequests => e
   @log.warn "[TOOMANYREQUESTS-START]: #{e}"
   sleep e.rate_limit.reset_in * 1.75
   @log.warn "[TOOMANYREQUESTS-END  ]: #{e}"
   retry
-rescue => e
+rescue StandardError => e
   @log.warn e
   sleep 5
   retry
